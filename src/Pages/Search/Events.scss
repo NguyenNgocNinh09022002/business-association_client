@@ -1,0 +1,168 @@
+@import '../../Components/GlobalStyles/Responsive/responsive.scss';
+
+.event {
+    padding: 20px 0 0;
+    .header_left {
+        display: flex;
+        margin-bottom: 20px;
+
+        .header_path {
+            a {
+                text-decoration: none;
+                font-size: 13px;
+                color: var(--primary);
+
+                &:hover {
+                    color: #00a8eb;
+                }
+            }
+        }
+
+        .vertical {
+            padding: 0 4px;
+            font-weight: 100;
+        }
+
+        .header_text {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            p {
+                font-size: 13px;
+                margin-top: 3px;
+            }
+        }
+    }
+
+    .event__header {
+        text-transform: uppercase;
+    }
+
+    .event_item {
+        border-bottom-style: solid;
+        border-bottom-color: hsl(0deg 2.21% 54.43% / 20%);
+        border-width: 1px;
+
+        .path {
+            margin-top: 40px;
+            h4 {
+                a {
+                    text-decoration: none;
+                    text-transform: uppercase;
+                    font-size: 12px;
+                    color: var(--primary);
+
+                    &:hover {
+                        color: #00a8eb;
+                    }
+                }
+            }
+        }
+        .event_header {
+            margin-bottom: 3px;
+            a {
+                text-decoration: none;
+                color: var(--text-color);
+                font-size: 22px;
+                margin-bottom: 12px;
+                transition: all 0.3s;
+                font-weight: 600;
+                &:hover {
+                    color: #00a8eb;
+                }
+            }
+        }
+        .posted {
+            font-size: 12px;
+            text-transform: uppercase;
+            padding: 6px;
+        }
+        .event__content {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            margin-top: 6px;
+
+            .event__content_pic {
+                flex: 1;
+                img {
+                    width: 100%;
+                    min-height: 210px;
+                    display: block;
+                    border-radius: 3px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                }
+            }
+
+            .event__content_text {
+                flex: 2;
+                margin-left: 20px;
+
+                .event__content_text_content {
+                    P {
+                        margin: 0 0 24px;
+                        color: #333;
+                        text-align: justify;
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 6;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }
+
+                button {
+                    padding: 10px 20px;
+                    background-color: #fff;
+                    color: var(--primary);
+                    border: solid 1px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    display: flex;
+                    font-size: 12px;
+                    align-items: center;
+
+                    &:hover {
+                        background-color: var(--primary);
+                        color: #fff;
+                    }
+
+                    p {
+                        display: flex;
+                        .arrow_icon {
+                            font-size: 16px;
+                            margin-left: 6px;
+                        }
+                    }
+                }
+            }
+        }
+        // &:last-child {
+        //     border: none;
+        // }
+    }
+}
+
+@include Responsive($MOBILE_DEVICE) {
+    .event {
+        .event_item {
+            .event__content {
+                flex-direction: column;
+
+                .event__content_pic {
+                    width: 100%;
+                }
+
+                .event__content_text {
+                    margin-left: 0;
+                    .event__content_text_content {
+                        p {
+                            margin: 10px 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

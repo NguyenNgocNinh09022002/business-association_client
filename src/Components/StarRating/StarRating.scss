@@ -1,0 +1,26 @@
+@import '../GlobalStyles/Responsive/responsive.scss';
+.star__rating {
+    svg {
+        font-size: 22px;
+        color: #dddddd;
+        margin-right: 8px;
+        transition: color 0.2s;
+    }
+}
+
+@include Responsive($MOBILE_DEVICE) {
+    .eventDetail {
+        .eventDetail__wrap {
+            .eventDetail__wrap_date_star {
+                .star__rating {
+                    display: flex;
+                    margin-bottom: 10px;
+                    svg {
+                        margin-right: 5px;
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+    }
+}

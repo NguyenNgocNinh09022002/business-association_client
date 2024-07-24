@@ -1,0 +1,65 @@
+
+.edit_post {
+    margin: 100px 0 ;
+    
+    .container {
+
+        .item_container {
+            width: 100%;
+            margin-top: 10px;
+
+            .item_title {
+                width: 50px;
+                font-size: 20px;
+                font-weight: bold;
+
+            };
+
+            .item_select {
+                margin-left: 20px;
+                padding: 4px 20px;
+
+                .item_select__option {
+                    font-size: 16px;
+
+                }
+            }
+
+            .item_input {
+                font-size: 16px;
+
+            };
+
+            .item_textarea {
+                padding: 10px;
+
+            };
+        }
+    };
+
+    .btn_container {
+        flex-direction: row;
+        text-align: center;
+
+        .btn_item {
+           display: inline-block;
+           margin: 20px 10px;
+        
+        }
+
+        .btn_submit {
+            background-color: '#3af';
+            width: 100px;
+            height: 50px;
+
+        };
+
+        .btn_cancel {
+            background-color: '#aaa';
+            width: 100px;
+            height: 50px;
+        };
+
+    };
+
+}

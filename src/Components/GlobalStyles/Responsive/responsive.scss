@@ -1,0 +1,19 @@
+$TABLE_DEVICE: 'TABLE_DEVICE';
+$MOBILE_DEVICE: 'MOBILE_DEVICE';
+$TABLE_MOBILE: 'TABLE_MOBILE';
+
+@mixin Responsive($canvas) {
+    @if $canvas == $TABLE_DEVICE {
+        @media only screen and ((min-width: 740px) and (max-width: 1025px)) {
+            @content;
+        }
+    } @else if ($canvas == $MOBILE_DEVICE) {
+        @media only screen and (max-width: 739px) {
+            @content;
+        }
+    } @else if ($canvas == $TABLE_MOBILE) {
+        @media only screen and (max-width: 1024px) {
+            @content;
+        }
+    }
+}

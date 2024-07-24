@@ -1,0 +1,201 @@
+@import '../../Components/GlobalStyles/Responsive/responsive.scss';
+
+.contact {
+    padding: 20px 0 0;
+
+    .header_left {
+        display: flex;
+        margin-bottom: 20px;
+
+        .header_path {
+            a {
+                text-decoration: none;
+                font-size: 13px;
+                color: var(--primary);
+
+                &:hover {
+                    color: #00a8eb;
+                }
+            }
+        }
+
+        .vertical {
+            padding: 0 4px;
+            font-weight: 100;
+        }
+
+        .header_text {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            p {
+                font-size: 13px;
+                margin-top: 3px;
+            }
+        }
+    }
+    .contact__header {
+        margin: 20px 0;
+        text-align: center;
+
+        h1 {
+            font-size: 40px;
+            color: var(--primary);
+        }
+    }
+
+    .contact__content {
+        display: flex;
+        margin-bottom: 40px;
+
+        .map {
+            position: relative;
+            padding-bottom: 75%; /* 4:3 aspect ratio */
+            height: 452px;
+            overflow: hidden;
+            max-width: 100%;
+
+            iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border: 0;
+            }
+        }
+
+        .information {
+            .infomation__title {
+                font-size: 14px;
+                margin-left: 15px;
+            }
+
+            input {
+                width: 92%;
+                min-height: 50px;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                box-shadow: unset;
+                font-size: 15px;
+                padding: 15px;
+                margin: 4px 15px 20px;
+            }
+            input:focus-visible {
+                outline: none;
+            }
+
+            textarea {
+                width: 97%;
+                margin: 4px 15px 20px;
+                height: 138px;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                box-shadow: unset;
+                font-size: 15px;
+                padding: 15px;
+            }
+            textarea:focus-visible {
+                outline: none;
+            }
+            button {
+                width: 140px;
+                padding: 0 10px;
+                height: 42px;
+                border: 1px solid #00a8eb;
+                background: #00a8eb;
+                font-size: 16px;
+                color: #fff;
+                cursor: pointer;
+
+                &:hover {
+                    box-shadow: inset 0 0 0 100px rgba(0, 0, 0, 0.2);
+                    color: #fff;
+                    opacity: 1;
+                    outline: none;
+                }
+            }
+            // .information__current_item_textarea {
+            //     padding: 0 0 0 10px;
+
+            // }
+        }
+    }
+
+    .Contact__footer {
+        align-items: center;
+
+        .Contact__footer_header {
+            width: 562px;
+            p {
+                text-align: left;
+                color: var(--primary);
+                font-size: 22px;
+                margin: 12px 0 8px 50px;
+                line-height: 30px;
+            }
+        }
+        .Contact__footer_content {
+            width: 450px;
+            .Contact__footer_content_icon {
+                margin-right: 7px;
+                font-size: 20px;
+                color: var(--primary);
+            }
+            .Contact__footer_item {
+                display: flex;
+                justify-content: space-between;
+                ul {
+                    list-style: none;
+                    display: flex;
+                    margin-bottom: 10px;
+
+                    li {
+                        font-size: 16px;
+                        display: flex;
+                        align-items: center;
+                        color: #666666;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@include Responsive($TABLE_DEVICE) {
+    .contact {
+        .contact__content {
+            .information {
+                input {
+                    margin: 10px 10px;
+                }
+                button {
+                    margin-left: 22px;
+                }
+            }
+        }
+    }
+}
+
+@include Responsive($MOBILE_DEVICE) {
+    .contact__content {
+        flex-direction: column;
+
+        .map {
+            height: auto;
+            padding-bottom: 56.25%;
+        }
+    }
+    .information {
+        input,
+        textarea {
+            width: 100% !important;
+            margin: 0 0 20px !important;
+        }
+        .infomation__title {
+            margin-left: 0 !important;
+        }
+    }
+
+    .Contact__footer_item {
+        flex-direction: column;
+    }
+}

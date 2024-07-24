@@ -1,0 +1,138 @@
+@import '../GlobalStyles/Responsive/responsive.scss';
+
+.table__wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    .table {
+        min-width: 1170px;
+        width: 100%;
+        border: 1px solid #f2f2f2;
+        border-collapse: collapse;
+        font-size: 15px;
+
+        th,
+        td {
+            border-bottom: 1px solid #f2f2f2;
+        }
+
+        thead {
+            background-color: #adccde;
+            text-align: left;
+            th {
+                padding: 4px 14px 10px;
+
+                &:first-child {
+                    text-align: center;
+                }
+            }
+        }
+
+        tbody {
+            tr {
+                transition: all 0.2s;
+                &:hover {
+                    background-color: rgba(0, 0, 0, 0.08);
+                }
+                td {
+                    padding: 15px 12px;
+                }
+                .stt_cell {
+                    text-align: center;
+                }
+                .hovaten_cell {
+                    color: var(--primary);
+                }
+                .taive_cell {
+                    width: 70px;
+                    a {
+                        text-decoration: none;
+                        color: var(--primary);
+
+                        &:hover {
+                            opacity: 0.7;
+                        }
+                    }
+                }
+                .coquanbanhanh_cell {
+                    width: 175px;
+                }
+
+                .loaivanban_cell {
+                    width: 138px;
+                }
+                .trichyeu_cell {
+                    width: 341px;
+                    // -webkit-box-orient: vertical;
+                    // display: -webkit-box;
+                    // -webkit-line-clamp: 3;
+                    // overflow: hidden;
+                    // text-overflow: ellipsis;
+                    // max-height: 92px;
+                }
+            }
+        }
+
+        .filter__input_search {
+            width: 100%;
+            padding: 6px 5px;
+            border: none;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+            border: 1px solid #ccc;
+
+            &:focus-visible {
+                outline: none;
+            }
+        }
+    }
+}
+
+.pagination {
+    text-align: right;
+    margin: 15px 0;
+    font-size: 16px;
+
+    button {
+        font-size: 16px;
+        cursor: pointer;
+        padding: 5px 12px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 2px;
+        // box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+
+    input {
+        padding: 5px 10px;
+        border: none;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+        border-radius: 3px;
+        border: 1px solid #ccc;
+
+        &:focus-visible {
+            outline: none;
+        }
+    }
+
+    select {
+        border: none;
+        padding: 4px 5px;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+
+        &:focus-visible {
+            outline: none;
+        }
+    }
+}
+
+@include Responsive($MOBILE_DEVICE) {
+    .pagination {
+        .gotopage {
+            display: inline-flex;
+        }
+    }
+}

@@ -1,0 +1,156 @@
+@import '../../Components/GlobalStyles/Responsive/responsive.scss';
+
+.member {
+    padding: 20px 0 30px;
+
+    .header_left {
+        display: flex;
+        margin-bottom: 20px;
+
+        .header_path {
+            a {
+                text-decoration: none;
+                font-size: 13px;
+                color: var(--primary);
+
+                &:hover {
+                    color: #00a8eb;
+                }
+            }
+        }
+
+        .vertical {
+            padding: 0 4px;
+            font-weight: 100;
+        }
+
+        .header_text {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            p {
+                font-size: 13px;
+                margin-top: 3px;
+            }
+        }
+    }
+
+    .contact__header {
+        margin: 20px 0;
+        text-align: center;
+
+        h2 {
+            font-size: 40px;
+            color: var(--primary);
+        }
+    }
+
+    .member__content {
+        .member__content_item {
+            margin: 0 0px 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slide-in 0.5s forwards;
+            .member__content_wrap {
+                transition: transform linear 0.1s;
+                a {
+                    text-decoration: none;
+                    .member__content_wrap_img {
+                        display: flex;
+                        justify-content: center;
+                        img {
+                            width: 100%;
+                        }
+                    }
+
+                    .member__wrap {
+                        padding: 10px 10px 20px;
+                        h5 {
+                            font-size: 17px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            line-height: 26px;
+                            -webkit-line-clamp: 2;
+                            height: 56px;
+                            display: -webkit-box;
+                            -webkit-box-orient: vertical;
+                            color: var(--text-color);
+                            margin: 0 0 4px;
+                            text-align: center;
+                        }
+
+                        .member__btn {
+                            display: flex;
+                            justify-content: center;
+                            button {
+                                padding: 4px 10px;
+                                background-color: #fff;
+                                color: var(--blue-ocean-water);
+                                border: solid 2px;
+                                border-radius: 2px;
+                                cursor: pointer;
+                                transition: all 0.3s;
+                                display: flex;
+                                font-size: 10px;
+                                align-items: center;
+                                display: flex;
+                                justify-content: center;
+
+                                &:hover {
+                                    background-color: var(--blue-ocean-water);
+                                    color: #fff;
+                                }
+                            }
+                        }
+                    }
+                }
+                &:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 4px 7px 0px #00a8eb9c;
+                }
+            }
+        }
+    }
+
+    .see__more {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+
+        h4 {
+            color: var(--primary);
+            font-size: 18px;
+            width: max-content;
+            cursor: pointer;
+
+            &:hover {
+                color: var(--blue-ocean-water);
+            }
+        }
+    }
+
+    @keyframes slide-in {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
+
+@include Responsive($TABLE_MOBILE) {
+    .member {
+        .member__content {
+            .member__content_item {
+                .member__content_wrap {
+                    a {
+                        .member__content_wrap_img {
+                            img {
+                                width: 60%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

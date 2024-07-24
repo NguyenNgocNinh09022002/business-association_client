@@ -1,0 +1,94 @@
+@import '../../Components/GlobalStyles/Responsive/responsive.scss';
+
+.memberdetail {
+    padding: 20px 0 0;
+
+    .header_left {
+        display: flex;
+        margin-bottom: 20px;
+
+        .header_path {
+            a {
+                text-decoration: none;
+                font-size: 13px;
+                color: var(--primary);
+
+                &:hover {
+                    color: #00a8eb;
+                }
+            }
+        }
+
+        .vertical {
+            padding: 0 4px;
+            font-weight: 100;
+        }
+
+        .header_text {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            p {
+                font-size: 13px;
+                margin-top: 3px;
+            }
+        }
+    }
+
+    .member__header {
+        h1 {
+            color: var(--primary);
+            font-size: 38px;
+            line-height: normal;
+        }
+    }
+    .member__detail_content {
+        margin: 30px 0;
+        .member_detail_img {
+            img {
+                width: 100%;
+                height: 374px;
+            }
+        }
+        .member_detail_item {
+            display: flex;
+            justify-content: left;
+            align-items: center;
+            margin-bottom: 6px;
+            h4 {
+                color: #444444;
+                margin-right: 2px;
+            }
+            p {
+                font-size: 16px;
+                color: #444;
+                margin-left: 6px;
+            }
+        }
+    }
+}
+
+@include Responsive($TABLE_MOBILE) {
+    .memberdetail {
+        .member__detail_content {
+            .member_detail_img {
+                display: flex;
+                justify-content: center;
+                img {
+                    width: 60%;
+                    height: auto;
+                }
+            }
+        }
+    }
+}
+
+@include Responsive($MOBILE_DEVICE) {
+    .memberdetail {
+        .member__header {
+            h1 {
+                font-size: 30px;
+            }
+        }
+    }
+}

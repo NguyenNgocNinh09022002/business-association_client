@@ -1,0 +1,49 @@
+@import 'normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import '../grid/grid.css';
+
+:root {
+    --style-font-family: 'Roboto', sans-serif;
+    --primary: #03649d;
+    --white-text: #ffffff;
+    --text-color: #000;
+    --blue-ocean-water: #00a8eb;
+
+    //Defaul Layout
+    --defaul-layout-width: 1200px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--style-font-family);
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.6rem;
+    line-height: 1.6;
+    text-rendering: optimizeSpeed;
+}
+
+.container {
+    max-width: var(--defaul-layout-width);
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin: auto;
+}
+
+.content {
+    flex: 1;
+    margin-top: 52px;
+    overflow: hidden;
+}
+
+.wrapper {
+    width: 100%;
+}
