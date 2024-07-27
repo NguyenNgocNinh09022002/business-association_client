@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTable, useSortBy, useFilters, usePagination } from 'react-table';
 import './Table.scss';
 import { Link } from 'react-router-dom';
+import { useMyContextProvider } from '../../../../store';
 
 function DefaultColumnFilter({ column: { filterValue, preFilteredRows, setFilter } }) {
     const count = preFilteredRows.length;
@@ -17,8 +18,133 @@ function DefaultColumnFilter({ column: { filterValue, preFilteredRows, setFilter
         />
     );
 }
+function directToEdit(path, id) {
+    document.location.href = `/admin${path}/edit/${id}`;
 
-const Table = ({ columns, data, path }) => {
+}
+
+const CustomButton = ({path, id, text1, text2}) => {
+    return (
+        <td style={{ display: 'flex', flexDirection:'column'}}>
+           <button style={{marginBottom:5}} onClick={() => directToEdit(path, id)}>{text1}</button>
+           <button>{text2}</button>
+        </td>
+    );
+}
+
+function getBehaviors({ state, row, path, rawData, index, controller }) {
+    switch (state) {
+        case 'public':
+            switch (controller.role) {
+                case 'admin_1':
+                   return (<CustomButton path={path} id={row.original._id} text1={'Chỉnh sửa'} text2={'Xóa'} />)
+                    break;
+            }
+            break;
+
+        case 'pending':
+            switch (controller.role) {
+                case 'admin_2':
+                    return (<CustomButton path={path} id={`${rawData[index]._id}?state=pending`} text1={'Xem trước khi duyệt'} text2={'Duyệt bài'} />)
+                    break;
+            }
+            break;
+            
+        case 'accepting':
+            switch (controller.role) {
+                case 'admin_2':
+                    return (<CustomButton path={path} id={`rawData[index]._id?state=accepting`} text1={'Xem trước khi đăng'} text2={'Đăng bài'} />)
+                    break;
+            }
+            break;
+    }
+
+    // switch (state) {
+    //     case 'public':
+    //         return controller.role == 'admin_1'
+    //         ?
+    //         (
+    //             <td>
+    //             <button onClick={() => {
+    //                                 document.location.href = `/admin${path}/edit/${row.original._id}`;
+    //                             }}>
+    //                 <span>Chỉnh sửa</span>
+    //             </button>
+    //             <button>
+    //                 <span>Xóa</span>
+    //             </button>
+    //         </td>
+    //         )
+    //         : controller.role == 'admin_2' ? (
+    //             <td>
+    //             <button onClick={() => {
+    //                                 document.location.href = `/admin${path}/edit/${row.original._id}`;
+    //                             }}>
+    //                 <span>Xem trước khi duyệt</span>
+    //             </button>
+    //             <button>
+    //                 <span>Duyệt</span>
+    //             </button>
+    //             </td>
+    //         ) : controller.role == 'admin_3' ? (
+    //         <td>
+    //         <button onClick={() => {
+    //                             document.location.href = `/admin${path}/edit/${row.original._id}`;
+    //                         }}>
+    //             <span>Xem trước khi đăng</span>
+    //         </button>
+    //         <button>
+    //                 <span>Đăng tải</span>
+    //             </button>
+    //         </td>) : null
+    //         ;
+    //         break;
+    //     case 'pending':
+    //     case 'accepting':
+    //     case 'excecuting':
+    //         return controller.role == 'admin_1'
+    //         ?
+    //         (
+    //             <td>
+    //             <button onClick={() => {
+    //                                 document.location.href = `/admin${path}/edit/${rawData[index]._id}`;
+    //                             }}>
+    //                 <span>Chỉnh sửa</span>
+    //             </button>
+    //             <button>
+    //                 <span>Xóa</span>
+    //             </button>
+    //         </td>
+    //         )
+    //         : controller.role == 'admin_2' ? (
+    //             <td>
+    //             <button onClick={() => {
+    //                                 document.location.href = `/admin${path}/edit/${rawData[index]._id}`;
+    //                             }}>
+    //                 <span>Xem trước khi duyệt</span>
+    //             </button>
+    //             <button>
+    //                 <span>Duyệt</span>
+    //             </button>
+    //             </td>
+    //         ) : controller.role == 'admin_3' ? (
+    //         <td>
+    //         <button onClick={() => {
+    //                             document.location.href = `/admin${path}/edit/${rawData[index]._id}`;
+    //                         }}>
+    //             <span>Xem trước khi đăng</span>
+    //         </button>
+    //         <button>
+    //                 <span>Đăng tải</span>
+    //             </button>
+    //         </td>) : null
+    //         break;
+    //     }
+}
+
+const Table = ({ columns, data, path, state, rawData }) => {
+    const [controller, dispatch] = useMyContextProvider();
+
     const defaultColumn = React.useMemo(
         () => ({
             // Let's set up our default Filter UI
@@ -45,7 +171,7 @@ const Table = ({ columns, data, path }) => {
     } = useTable(
         {
             columns,
-            data,
+            data: data,
             defaultColumn,
             initialState: { pageIndex: 0 },
         },
@@ -58,11 +184,17 @@ const Table = ({ columns, data, path }) => {
         <>
             <div className="table__wrapper">
                 <table {...getTableProps()} className="table">
-                    <thead >
+                    <thead>
                         {headerGroups.map((headerGroup) => (
-                            <tr {...headerGroup.getHeaderGroupProps()} style={{maxWidth:'100%', backgroundColor:'#adccde'}} >
+                            <tr
+                                {...headerGroup.getHeaderGroupProps()}
+                                style={{ maxWidth: '100%', backgroundColor: '#adccde' }}
+                            >
                                 {headerGroup.headers.map((column) => (
-                                    <th {...column.getHeaderProps(column.getSortByToggleProps())} style={{maxWidth:'100%', backgroundColor:'#adccde'}}>
+                                    <th
+                                        {...column.getHeaderProps(column.getSortByToggleProps())}
+                                        style={{ maxWidth: '100%', backgroundColor: '#adccde' }}
+                                    >
                                         {column.render('Header')}
                                         <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
                                         <div>
@@ -85,8 +217,7 @@ const Table = ({ columns, data, path }) => {
                         {page.map((row, i) => {
                             prepareRow(row);
                             return (
-                                
-                                <tr {...row.getRowProps()} onClick={()=>{console.log('gia tri row: ',row);document.location.href=`/admin${path}/${row.original._id}`}} >
+                                <tr {...row.getRowProps()}>
                                     {row.cells.map((cell) => {
                                         const className =
                                             cell.column.id === 'stt'
@@ -114,14 +245,8 @@ const Table = ({ columns, data, path }) => {
                                             </td>
                                         );
                                     })}
-                                    <td>
-                                        <span>Chỉnh sửa</span>
-                                    </td>
-                                    <td>
-                                        <span>Xóa</span>
-                                    </td>
+                                    {getBehaviors({ state, row, path, rawData: rawData, index: i, controller })}
                                 </tr>
-                                
                             );
                         })}
                     </tbody>

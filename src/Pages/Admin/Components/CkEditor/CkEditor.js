@@ -43,7 +43,7 @@ import 'ckeditor5/ckeditor5.css';
 
 import './CkEditor.css';
 
-export default function CkEditorComponent({ data, onEvent }) {
+export default function CkEditorComponent({  disabled, data, onEvent }) {
     const editorContainerRef = useRef(null);
     const editorRef = useRef(null);
     const [isLayoutReady, setIsLayoutReady] = useState(false);
@@ -140,7 +140,7 @@ export default function CkEditorComponent({ data, onEvent }) {
                             {isLayoutReady && (
                                 <CKEditor 
                                     data={data}
-                                
+                                    disabled={disabled}
                                     onChange={(event, editor) => onEvent(editor.getData())}
                                     editor={ClassicEditor}
                                     config={editorConfig}

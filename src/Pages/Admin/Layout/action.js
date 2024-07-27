@@ -4,7 +4,10 @@ const LayoutAdmin = ({ children }) => {
     return (
         <div >
             <LastestHeader />
+
+            <div style={{ marginTop: '100px'}} >
                 {children}
+            </div>
         </div>
     );
 };

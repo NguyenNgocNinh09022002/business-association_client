@@ -4,7 +4,7 @@ const getMenu = async () => {
     var data = [];
     data = await fetch(`${serverHost}/menus`)
         .then((responce) => responce.json())
-        .then((data) => (data.length > 0 ? data : []))
+        .then((values) => (values?.length > 0 ? values : []))
         .catch((error) => console.log('lỗi khi get menu:', error));
 
     let parentData = await data.filter((item) => !item.parentID);
@@ -42,12 +42,12 @@ const getPosts = async (path) => {
     return postsData.length > 0 ? postsData : [];
 };
 
-const getFullPosts = async () => {
-    let postsData = await fetch(`${serverHost}/posts/full`)
+const getFullPosts = async (type) => {
+    let postsData = await fetch(`${serverHost}/admin/posts/${type}`)
         .then((responce) => responce.json())
         .then((data) => data)
         .catch((error) => alert(`Lỗi khi getFullPosts: ${error}`));
-    return postsData.length > 0 ? postsData : [];
+    return postsData?.length > 0 ? postsData : [];
 };
 
 const getPostByID = async (id) => {
@@ -64,8 +64,8 @@ const addPost = () => {
     return `${serverHost}/posts/store`;
 }
 
-const updatePost = (id) => {
-    return `${serverHost}/posts/${id}?_method=PUT`
+const updatePost = (postData) => {
+    return `${serverHost}/posts/${postData._id}?_method=PUT`
 }
 
 const getPartners = async () => {
@@ -73,7 +73,7 @@ const getPartners = async () => {
         .then((responce) => responce.json())
         .then((data) => data)
         .catch((error) => alert(error));
-    return partnersData.length > 0 ? partnersData : [];
+    return partnersData?.length > 0 ? partnersData : [];
 };
 
 const getPartner = async (path) => {

@@ -36,6 +36,12 @@ function Header() {
             navMobileInputRef.current.checked = false;
         }
     };
+    const [showSearch, setShowSearch] = useState(false);
+    const searchRef = useRef(null);
+    const toggleSearch = () => {
+        setShowSearch(!showSearch);
+    };
+
     const [menus, setMenu] = useState([]);
 
     useEffect(() => {
@@ -66,7 +72,7 @@ function Header() {
                                         {menu?.name}
                                         {menu.childs.length > 0 && <AiOutlineDown className="icon_down" />}
                                     </Link>
-                                    {menu.childs && (
+                                    {menu.childs.length >0 && (
                                         <ul className="header__menu_dropdown">
                                             {menu.childs.map((childItem, childKey) => (
                                                 <li
@@ -84,11 +90,12 @@ function Header() {
                             ))}
                         </ul>
                     </div>
+                   
                     <div className="search ">
                         <ul>
                             <li>
-                                <ImSearch className="icon_search" />
-                                <form action={`/tìm-kiếm?${searchStr}`} method='GET' className="input_search">
+                                <ImSearch className="icon_search" onClick={toggleSearch} />
+                                <form  ref={searchRef} className={`input_search ${showSearch ? 'show' : ''}`} action={`/tìm-kiếm?${searchStr}`} method='GET' className="input_search">
                                     <input
                                         value={searchStr}
                                         onInput={(event) => {
@@ -139,7 +146,7 @@ function Header() {
                                             {menu.childs.length > 0 &&
                                                 (menu.isShowSubmenu ? <AiOutlineDownCircle /> : <AiOutlineUpCircle />)}
                                         </Link>
-                                        {menu.childs && (
+                                        {menu.childs.length >0 && (
                                             <ul
                                                 className={`header__menu_dropdown ${
                                                     menu.isShowSubmenu ? 'show__submenu' : ''

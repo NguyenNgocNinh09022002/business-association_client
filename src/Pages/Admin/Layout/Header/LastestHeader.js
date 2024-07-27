@@ -39,22 +39,22 @@ function Header() {
         {
             name: 'Partners',
             slug: 'admin/partners',
-            childs: []
+            childs: [],
         },
         {
             name: 'Posts',
             slug: 'admin/posts',
-            childs: [{
-                name: 'Edit Post',
-                slug: 'id',
-            }]
-        }
+            childs: [
+                {
+                    name: 'Edit Post',
+                    slug: 'id',
+                },
+            ],
+        },
     ]);
 
-    
-
     return (
-        <div className="header">
+        <div className="header" style={{ display: 'block', position: 'unset' }}>
             <div className="container">
                 <div className="header__content">
                     <label htmlFor="nav__mobile_input" className="nav__bars_btn">
@@ -69,29 +69,11 @@ function Header() {
                         <ul>
                             {menus?.map((menu, menuKey) => (
                                 <li key={menuKey}>
-                                    <Link to={menu.childs.length > 0 ? null : '/' + menu?.slug}>
-                                        {menu?.name}
-                                        {menu.childs.length > 0 && <AiOutlineDown className="icon_down" />}
-                                    </Link>
-                                    {menu.childs && (
-                                        <ul className="header__menu_dropdown">
-                                            {menu.childs.map((childItem, childKey) => (
-                                                <li
-                                                    key={`${menuKey}-${childKey}`}
-                                                    className="header__menu_dropdown_child"
-                                                >
-                                                    <Link to={'/' + menu.slug + '/' + childItem.slug} reloadDocument>
-                                                        {childItem.name}{' '}
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    )}
+                                    <Link to={'/' + menu?.slug}>{menu?.name}</Link>
                                 </li>
                             ))}
                         </ul>
                     </div>
-                  
 
                     {/* Nav menu MOBILE */}
 
@@ -115,53 +97,16 @@ function Header() {
                                 {menus.map((menu, menukey) => (
                                     <li key={menukey}>
                                         <Link
-                                             to={menu.childs.length > 0 ? null : '/' + menu?.slug}
+                                            to={'/' + menu?.slug}
                                             onClick={() => {
                                                 handleLinkClick(menukey);
                                                 handleParentLinkClick(menu);
                                             }}
                                         >
                                             {menu.name}
-                                            {menu.childs.length > 0 &&
-                                                (menu.isShowSubmenu ? <AiOutlineDownCircle /> : <AiOutlineUpCircle />)}
                                         </Link>
-                                        {menu.childs && (
-                                            <ul
-                                                className={`header__menu_dropdown ${
-                                                    menu.isShowSubmenu ? 'show__submenu' : ''
-                                                }`}
-                                            >
-                                                {menu.childs.map((childItem, childKey) => (
-                                                    <li key={`${menukey}-${childKey}`}>
-                                                        <Link to={'/' + menu.slug + '/' + childItem.slug} onClick={handleChildLinkClick}>
-                                                            {childItem.name}
-                                                        </Link>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        )}
                                     </li>
                                 ))}
-                            </ul>
-                        </div>
-                        <div className="nav__menu_social">
-                            <Link to={''}>
-                                <AiOutlineFacebook />{' '}
-                            </Link>
-
-                            <Link to={''}>
-                                <AiOutlineInstagram />
-                            </Link>
-
-                            <Link to={''}>
-                                <AiOutlineLinkedin />
-                            </Link>
-                        </div>
-                        <div className="nav__menu_contact">
-                            <ul>
-                                <li>
-                                    <MdEmail /> TDMU@gmail.com
-                                </li>
                             </ul>
                         </div>
                     </div>

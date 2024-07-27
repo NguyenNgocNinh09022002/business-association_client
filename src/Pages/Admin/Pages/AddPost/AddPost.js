@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import CkEditorComponent from '../../Components/CkEditor/CkEditor';
-import './EditPost.scss';
+import './AddPost.scss';
 import APIs from '../../../../APIs';
-import { ref, getDownloadURL,  uploadBytes } from 'firebase/storage';
+
 import { storage } from '../../../../firebaseConfig';
+import { ref, getDownloadURL,  uploadBytes } from 'firebase/storage';
 
-const EditPost = () => {
-    const [content, setContent] = useState('');
+const AddPost = () => {
     const [postTypes, setPostTypes] = useState([]);
-    const [postData, setPostData] = useState({});
     const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('')
-    const [image, setImage] = useState('');
-    const [isVisible, setIsVisible] = useState(true);
-
+    const [description, setDescription] = useState('');
+    const [content, setContent] = useState('');
+    const [imageState, setImageState] = useState(false);
     useEffect(() => {
         APIs.getMenu()
             .then((menus) => (menus.length > 0 ? menus.filter((item) => item._id == '669c7da19e21ccf15d892a07') : []))
@@ -21,25 +19,9 @@ const EditPost = () => {
             .catch((error) => alert(error));
     }, []);
 
-    useEffect(() => {
-        const path = document.location.pathname.split('/');
-        APIs.getPostByID(path[path.length - 1])
-            .then((data) => {
-                if (!!data) {
-                    console.log(data)
-                    setPostData(data);
-                    setContent(data.content);
-                    setTitle(data.title)
-                    setDescription(data.description)
-                    setImage(data.attachments[0]?.image)
-                }
-            })
-
-            .catch((error) => alert('lỗi: ', error));
-    }, []);
-
-
-
+    //handle file upload
+    const [imgUrl, setImgUrl] = useState('');
+    const [progresspercent, setProgresspercent] = useState(0);
     const [file, setFile] = useState();
 
     function handleChange(event) {
@@ -47,9 +29,9 @@ const EditPost = () => {
         console.log(event.target.files[0].Blob);
         setFile(URL.createObjectURL(imgPath));
     }
-    
+
     const handleSubmit = async (e) => {
-        let pathImg = "";
+        let pathImg = '';
         // Create the file metadata
         /** @type {any} */
         const metadata = {
@@ -63,8 +45,8 @@ const EditPost = () => {
             .catch((err) => console.error(err));
 
         await getDownloadURL(storageRef)
-            .then( (imgPath) => {
-                pathImg = imgPath
+            .then((imgPath) => {
+                pathImg = imgPath;
             })
             .catch((error) => alert(error));
         return pathImg;
@@ -72,27 +54,24 @@ const EditPost = () => {
 
     return (
         <div className="edit_post">
-            <form id='form'
-             onSubmit={async function (e) {
+            <form
+                id="form"
+                onSubmit={async function (e) {
                     e.preventDefault();
-                    if(image) {
-                        document.getElementById('form').submit();
-                        return;
-                    }
                     const url = await handleSubmit();
+
                     document.getElementById('image').value = url;
                     document.getElementById('form').submit();
                 }}
-             className="container" method='POST'   action={APIs.updatePost(postData)}>
+                action={APIs.addPost()}
+                method="POST"
+                className="container"
+            >
                 <div className="item_container">
                     <span className="item_title">Thể loại</span>
-                    <select disabled={isVisible} name='parentID' className="item_select">
+                    <select name="parentID" className="item_select">
                         {postTypes.map((type) => (
-                            <option
-                                value={type._id}
-                                selected={type._id == postData.parentID ? 'selected' : null}
-                                className="item_select__option"
-                            >
+                            <option value={type._id} className="item_select__option">
                                 {type.name}
                             </option>
                         ))}
@@ -100,7 +79,7 @@ const EditPost = () => {
                 </div>
                 <div className="item_container">
                     <span className="item_title">Tiêu đề</span>
-                    <input disabled={isVisible}
+                    <input
                         onInput={(event) => setTitle(event.value)}
                         className="item_input item_input__title"
                         type="text"
@@ -112,7 +91,6 @@ const EditPost = () => {
                 <div className="item_container">
                     <span className="item_title">Mô tả</span>
                     <textarea
-                        disabled={isVisible}
                         onInput={(event) => setDescription(event.value)}
                         className="item_input item_textarea"
                         style={{ width: '100%' }}
@@ -120,35 +98,32 @@ const EditPost = () => {
                         rows={5}
                         value={description}
                     >
-                        {postData?.description}
+                        {description}
                     </textarea>
                 </div>
                 <div className="item_container">
                     <span className="item_title">Hình ảnh</span>
                     <input
-                        disabled={isVisible}
                         className="item_input item_input__files"
-                        id="fileUpload"
+                        id="file"
                         type="file"
                         onChange={handleChange}
                         style={{ width: '100%' }}
                         // name="fileUpload"
                     />
                 </div>
-                <div className="item_container">
-                    <span className="item_title"></span>
-                    {image && <img src={image} alt="uploaded file"  />}
-                    <input id="image" name="image" hidden value={image} />
-                </div>
-               
+                <input id="image" name="image" hidden value={imgUrl} />
+                {file && <img src={file} alt="uploaded file" height={200} />}
                 <div className="item_container">
                     <span className="item_title">Nội dung</span>
-                    <CkEditorComponent disabled={isVisible} data={content} onEvent={setContent} />
+                    <CkEditorComponent data={content} onEvent={setContent} />
                 </div>
-                <input name='content' value={content} hidden />
+                <input name="content" value={content} hidden />
                 <div className="btn_container">
                     <div className="btn_item">
-                        <input  className=" btn_submit" type="submit" onClick={() => {}} value={'Lưu bài viết'} />
+                        <button className=" btn_submit" type="submit">
+                            Lưu bài viết
+                        </button>
                     </div>
                     <div className="btn_item">
                         <input type="button" className="btn_cancel" value={'Hủy'} />
@@ -159,4 +134,4 @@ const EditPost = () => {
     );
 };
 
-export default EditPost;
+export default AddPost;

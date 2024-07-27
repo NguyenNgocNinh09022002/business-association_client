@@ -1,4 +1,7 @@
+import { useMyContextProvider } from "../../../../../store";
+
 const SideBar = () => {
+    var [controller, dispatch] = useMyContextProvider()
     return (
         <div style={{ width: 150 }}>
             <p>
@@ -12,7 +15,7 @@ const SideBar = () => {
                 </a>
             </p>
             <p>
-                <a href="/admin/posts/submiting" style={{ marginLeft: 20, marginTop: 10, fontSize: 16 }}>
+                <a href="/admin/posts/accepting" style={{ marginLeft: 20, marginTop: 10, fontSize: 16 }}>
                     Bài viết chờ đăng
                 </a>
             </p>
