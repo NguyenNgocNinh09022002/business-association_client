@@ -18,15 +18,17 @@ import Search from '../Pages/Search';
 import Login from '../Components/FormLogin/index';
 
 import Partners from '../Pages/Admin/Pages/Partners/index';
-import Posts from '../Pages/Admin/Pages/Posts/index';
-import EditPost from '../Pages/Admin/Pages/EditPost/EditPost';
+
+
 import LayoutAdmin from '../Pages/Admin/Layout';
 import LayoutAction from '../Pages/Admin/Layout/action';
-import AddPost from '../Pages/Admin/Pages/AddPost/AddPost';
-import { Outlet } from 'react-router-dom';
+import Posts from '../Pages/Admin/Pages/Posts/Home/index';
+import EditPost from '../Pages/Admin/Pages/Posts/EditPost/EditPost';
+import AddPost from '../Pages/Admin/Pages/Posts/AddPost/AddPost';
 import Authen from '../authen';
-import { Children } from 'react';
 
+import Users from '../Pages/Admin/Pages/Users/Home/index'
+import AddUser from '../Pages/Admin/Pages/Users/AddUser/index'
 
 
 // Public routes
@@ -67,6 +69,8 @@ const publicRoutes = [
             { path: '/admin/posts/pending', component: Posts, layout: LayoutAdmin },
             { path: '/admin/posts/:type', component: Posts, layout: LayoutAdmin },
             { path: '/admin/posts/', component: Posts, layout: LayoutAdmin },
+            { path: '/admin/users/', component: Users , layout: LayoutAdmin},
+            { path: '/admin/users/edit/:id', component: AddUser, layout: LayoutAdmin}
             
         ],
     },

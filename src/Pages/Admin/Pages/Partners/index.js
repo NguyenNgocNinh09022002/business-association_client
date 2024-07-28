@@ -6,7 +6,7 @@ import { AiOutlineFacebook, AiOutlineInstagram } from 'react-icons/ai';
 import { SiZalo } from 'react-icons/si';
 import APIs from '../../../../APIs';
 import './Partners.scss';
-import Table from '../../Components/Table/Table';
+import Table from '../../../../Components/Table/Table';
 function Partners() {
     const columns = [
         {

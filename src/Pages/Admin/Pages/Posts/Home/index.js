@@ -1,4 +1,4 @@
-import { useMyContextProvider } from '../../../../store';
+import { useMyContextProvider } from '../../../../../store';
 import PostsContainer from './PostContainer/PostContainer';
 import Side from './Side';
 

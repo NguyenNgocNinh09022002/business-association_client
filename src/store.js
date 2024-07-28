@@ -15,7 +15,7 @@ const reducer = (state, action) => {
 
 const initialState = {
     user: {userName: 'Ninh'},
-    role: "admin_1"
+    role: "admin_3"
 }
 
 //MyContext

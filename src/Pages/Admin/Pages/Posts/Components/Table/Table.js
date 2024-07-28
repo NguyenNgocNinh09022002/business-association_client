@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useTable, useSortBy, useFilters, usePagination } from 'react-table';
 import './Table.scss';
 import { Link } from 'react-router-dom';
-import { useMyContextProvider } from '../../../../store';
+import { useMyContextProvider } from '../../../../../../store';
+import APIs from '../../../../../../APIs/index';
 
 function DefaultColumnFilter({ column: { filterValue, preFilteredRows, setFilter } }) {
     const count = preFilteredRows.length;
@@ -23,11 +24,29 @@ function directToEdit(path, id) {
 
 }
 
-const CustomButton = ({path, id, text1, text2}) => {
+function agreeMethod(id, state) {
+    APIs.agreePost({postsID:id, state: state}).then(data => {
+        document.location.reload();
+    })
+}
+
+function deleteMethod(id) {
+    alert('xóa')
+    APIs.deletePost(id).then(value => {
+        document.location.reload();
+    })
+}
+
+const CustomButton = ({path, id, state, text1, text2}) => {
     return (
         <td style={{ display: 'flex', flexDirection:'column'}}>
            <button style={{marginBottom:5}} onClick={() => directToEdit(path, id)}>{text1}</button>
-           <button>{text2}</button>
+           {
+            text2 == 'Xóa'?
+            <button onClick={()=> deleteMethod(id)} > {'Xóa post'} </button>
+           
+            :<button onClick={()=>agreeMethod(id, state)}>{text2}</button>
+           }
         </td>
     );
 }
@@ -45,101 +64,20 @@ function getBehaviors({ state, row, path, rawData, index, controller }) {
         case 'pending':
             switch (controller.role) {
                 case 'admin_2':
-                    return (<CustomButton path={path} id={`${rawData[index]._id}?state=pending`} text1={'Xem trước khi duyệt'} text2={'Duyệt bài'} />)
+                    return (<CustomButton path={path} id={`${rawData[index]._id}?state=pending`} state={state} text1={'Xem trước khi duyệt'} text2={'Duyệt bài'} />)
                     break;
             }
             break;
             
         case 'accepting':
             switch (controller.role) {
-                case 'admin_2':
-                    return (<CustomButton path={path} id={`rawData[index]._id?state=accepting`} text1={'Xem trước khi đăng'} text2={'Đăng bài'} />)
+                case 'admin_3':
+                    return (<CustomButton path={path} id={`${rawData[index]._id}?state=accepting`} state={state} text1={'Xem trước khi đăng'} text2={'Đăng bài'} />)
                     break;
             }
             break;
     }
 
-    // switch (state) {
-    //     case 'public':
-    //         return controller.role == 'admin_1'
-    //         ?
-    //         (
-    //             <td>
-    //             <button onClick={() => {
-    //                                 document.location.href = `/admin${path}/edit/${row.original._id}`;
-    //                             }}>
-    //                 <span>Chỉnh sửa</span>
-    //             </button>
-    //             <button>
-    //                 <span>Xóa</span>
-    //             </button>
-    //         </td>
-    //         )
-    //         : controller.role == 'admin_2' ? (
-    //             <td>
-    //             <button onClick={() => {
-    //                                 document.location.href = `/admin${path}/edit/${row.original._id}`;
-    //                             }}>
-    //                 <span>Xem trước khi duyệt</span>
-    //             </button>
-    //             <button>
-    //                 <span>Duyệt</span>
-    //             </button>
-    //             </td>
-    //         ) : controller.role == 'admin_3' ? (
-    //         <td>
-    //         <button onClick={() => {
-    //                             document.location.href = `/admin${path}/edit/${row.original._id}`;
-    //                         }}>
-    //             <span>Xem trước khi đăng</span>
-    //         </button>
-    //         <button>
-    //                 <span>Đăng tải</span>
-    //             </button>
-    //         </td>) : null
-    //         ;
-    //         break;
-    //     case 'pending':
-    //     case 'accepting':
-    //     case 'excecuting':
-    //         return controller.role == 'admin_1'
-    //         ?
-    //         (
-    //             <td>
-    //             <button onClick={() => {
-    //                                 document.location.href = `/admin${path}/edit/${rawData[index]._id}`;
-    //                             }}>
-    //                 <span>Chỉnh sửa</span>
-    //             </button>
-    //             <button>
-    //                 <span>Xóa</span>
-    //             </button>
-    //         </td>
-    //         )
-    //         : controller.role == 'admin_2' ? (
-    //             <td>
-    //             <button onClick={() => {
-    //                                 document.location.href = `/admin${path}/edit/${rawData[index]._id}`;
-    //                             }}>
-    //                 <span>Xem trước khi duyệt</span>
-    //             </button>
-    //             <button>
-    //                 <span>Duyệt</span>
-    //             </button>
-    //             </td>
-    //         ) : controller.role == 'admin_3' ? (
-    //         <td>
-    //         <button onClick={() => {
-    //                             document.location.href = `/admin${path}/edit/${rawData[index]._id}`;
-    //                         }}>
-    //             <span>Xem trước khi đăng</span>
-    //         </button>
-    //         <button>
-    //                 <span>Đăng tải</span>
-    //             </button>
-    //         </td>) : null
-    //         break;
-    //     }
 }
 
 const Table = ({ columns, data, path, state, rawData }) => {
@@ -296,6 +234,7 @@ const Table = ({ columns, data, path, state, rawData }) => {
                     ))}
                 </select>
             </div>
+
         </>
     );
 };

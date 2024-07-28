@@ -1,0 +1,60 @@
+.admin__user {
+    padding: 20px 0 0;
+    .header_left {
+        display: flex;
+        margin-bottom: 20px;
+
+        .header_path {
+            a {
+                text-decoration: none;
+                font-size: 13px;
+                color: var(--primary);
+
+                &:hover {
+                    color: #00a8eb;
+                }
+            }
+        }
+
+        .vertical {
+            padding: 0 4px;
+            font-weight: 100;
+        }
+
+        .header_text {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            p {
+                font-size: 13px;
+                margin-top: 3px;
+            }
+        }
+    }
+    .admin__header {
+        margin: 20px 0 50px;
+        text-align: center;
+
+        h1 {
+            font-size: 32px;
+            color: var(--primary);
+        }
+    }
+
+    .Admin__add_icon {
+        display: flex;
+        margin: 0 30px 15px 0;
+        align-items: center;
+        justify-content: right;
+        text-decoration: none;
+        h6 {
+            margin-right: 4px;
+            font-size: 16px;
+            color: var(--blue-ocean-water);
+        }
+        svg {
+            font-size: 35px;
+            color: var(--blue-ocean-water);
+        }
+    }
+}

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import CkEditorComponent from '../../Components/CkEditor/CkEditor';
+import CkEditorComponent from '../Components/CkEditor/CkEditor';
 import './AddPost.scss';
-import APIs from '../../../../APIs';
+import APIs from '../../../../../APIs';
 
-import { storage } from '../../../../firebaseConfig';
+import { storage } from '../../../../../firebaseConfig';
 import { ref, getDownloadURL,  uploadBytes } from 'firebase/storage';
 
 const AddPost = () => {
@@ -11,7 +11,6 @@ const AddPost = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [content, setContent] = useState('');
-    const [imageState, setImageState] = useState(false);
     useEffect(() => {
         APIs.getMenu()
             .then((menus) => (menus.length > 0 ? menus.filter((item) => item._id == '669c7da19e21ccf15d892a07') : []))
@@ -20,13 +19,13 @@ const AddPost = () => {
     }, []);
 
     //handle file upload
-    const [imgUrl, setImgUrl] = useState('');
+    const [imageBlob, setImageBlob] = useState();
     const [progresspercent, setProgresspercent] = useState(0);
     const [file, setFile] = useState();
 
     function handleChange(event) {
         const imgPath = event.target.files[0];
-        console.log(event.target.files[0].Blob);
+        setImageBlob(imgPath);
         setFile(URL.createObjectURL(imgPath));
     }
 
@@ -38,15 +37,17 @@ const AddPost = () => {
             contentType: 'image/jpeg',
         };
 
+
         // Upload file and metadata to the object 'images/mountains.jpg'
-        const storageRef = ref(storage, 'images/' + 'img ' + file?.name);
-        const uploadTask = await uploadBytes(storageRef, file, metadata)
+        const storageRef = ref(storage, 'images/' + 'img ' + imageBlob.name);
+        const uploadTask = await uploadBytes(storageRef, imageBlob, metadata)
             .then((res) => console.log(res))
             .catch((err) => console.error(err));
 
         await getDownloadURL(storageRef)
             .then((imgPath) => {
                 pathImg = imgPath;
+                alert('path img: ', pathImg)
             })
             .catch((error) => alert(error));
         return pathImg;
@@ -58,8 +59,8 @@ const AddPost = () => {
                 id="form"
                 onSubmit={async function (e) {
                     e.preventDefault();
-                    const url = await handleSubmit();
-
+                    const url = imageBlob ? await handleSubmit() : "";
+                    
                     document.getElementById('image').value = url;
                     document.getElementById('form').submit();
                 }}
@@ -112,8 +113,8 @@ const AddPost = () => {
                         // name="fileUpload"
                     />
                 </div>
-                <input id="image" name="image" hidden value={imgUrl} />
-                {file && <img src={file} alt="uploaded file" height={200} />}
+                <input id="image" name="image" hidden  />
+                {file && <img id='img_des' src={file} alt="uploaded file" height={200} />}
                 <div className="item_container">
                     <span className="item_title">Nội dung</span>
                     <CkEditorComponent data={content} onEvent={setContent} />

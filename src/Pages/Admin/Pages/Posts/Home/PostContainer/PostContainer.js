@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 import './PostsContainer.scss';
 
-import Table from '../../../Components/Table/Table';
-import APIs from '../../../../../APIs';
+import Table from '../../Components/Table/Table';
+import APIs from '../../../../../../APIs/index';
 
 const getLateColumns = (type) => {
     var arrCol = [];
