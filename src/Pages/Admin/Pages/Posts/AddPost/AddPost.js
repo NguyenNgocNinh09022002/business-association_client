@@ -121,13 +121,14 @@ const AddPost = () => {
                 </div>
                 <input name="content" value={content} hidden />
                 <div className="btn_container">
+                    
+                    <div className="btn_item">
+                        <button type="button" className="btn_cancel" onClick={()=> window.history.back()} >Hủy</button>
+                    </div>
                     <div className="btn_item">
                         <button className=" btn_submit" type="submit">
                             Lưu bài viết
                         </button>
-                    </div>
-                    <div className="btn_item">
-                        <input type="button" className="btn_cancel" value={'Hủy'} />
                     </div>
                 </div>
             </form>

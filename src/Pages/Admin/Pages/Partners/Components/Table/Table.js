@@ -25,14 +25,14 @@ function directToEdit(path, id) {
 }
 
 function agreeMethod(id, state) {
-    APIs.agreePost({postsID:id, state: state}).then(data => {
+    APIs.agreePartner({partnerID:id, state: state}).then(data => {
         document.location.reload();
     })
 }
 
 function deleteMethod(id) {
     alert('xóa')
-    APIs.deletePost(id).then(value => {
+    APIs.deletePartner(id).then(value => {
         document.location.reload();
     })
 }
@@ -43,7 +43,7 @@ const CustomButton = ({path, id, state, text1, text2}) => {
            <button style={{marginBottom:5}} onClick={() => directToEdit(path, id)}>{text1}</button>
            {
             text2 == 'Xóa'?
-            <button onClick={()=> deleteMethod(id)} > {'Xóa post'} </button>
+            <button onClick={()=> deleteMethod(id)} > {'Xóa thành viên'} </button>
            
             :<button onClick={()=>agreeMethod(id, state)}>{text2}</button>
            }
@@ -65,7 +65,7 @@ function getBehaviors({ state, row, path, rawData, index, controller }) {
         case 'pending':
             switch (role) {
                 case 'admin_2':
-                    return (<CustomButton path={path} id={`${rawData[index]._id}?state=pending`} state={state} text1={'Xem trước khi duyệt'} text2={'Duyệt bài'} />)
+                    return (<CustomButton path={path} id={`${rawData[index]._id}?state=pending`} state={state} text1={'Xem trước khi duyệt'} text2={'Duyệt thành viên'} />)
                     break;
             }
             break;
@@ -73,7 +73,7 @@ function getBehaviors({ state, row, path, rawData, index, controller }) {
         case 'accepting':
             switch (role) {
                 case 'admin_3':
-                    return (<CustomButton path={path} id={`${rawData[index]._id}?state=accepting`} state={state} text1={'Xem trước khi đăng'} text2={'Đăng bài'} />)
+                    return (<CustomButton path={path} id={`${rawData[index]._id}?state=accepting`} state={state} text1={'Xem trước khi đăng'} text2={'Đăng thành viên'} />)
                     break;
             }
             break;

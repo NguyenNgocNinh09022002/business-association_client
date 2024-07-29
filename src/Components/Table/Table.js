@@ -113,12 +113,6 @@ const Table = ({ columns, data, path }) => {
                                             </td>
                                         );
                                     })}
-                                    <td>
-                                        <span>Chỉnh sửa</span>
-                                    </td>
-                                    <td>
-                                        <span>Xóa</span>
-                                    </td>
                                 </tr>
                             );
                         })}

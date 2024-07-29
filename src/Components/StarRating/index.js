@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { GoStarFill } from 'react-icons/go';
 import './StarRating.scss';
 
-const StarRating = ({ initialRating = 0, onRatingChange }) => {
+const StarRating = ({ eventId, initialRating = 0, onRatingChange }) => {
     const [rating, setRating] = useState(initialRating);
     const [hoverRating, setHoverRating] = useState(0);
 
     useEffect(() => {
-        const savedRating = localStorage.getItem('eventRating');
+        const savedRating = localStorage.getItem(`eventRating_${eventId}`);
         if (savedRating) {
             setRating(Number(savedRating));
         }
@@ -15,7 +15,7 @@ const StarRating = ({ initialRating = 0, onRatingChange }) => {
 
     const handleStarClick = (index) => {
         setRating(index);
-        localStorage.setItem('eventRating', index);
+        localStorage.setItem(`eventRating_${eventId}`, index);
         if (onRatingChange) onRatingChange(index);
     };
 

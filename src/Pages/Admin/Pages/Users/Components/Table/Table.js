@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTable, useSortBy, useFilters, usePagination } from 'react-table';
 import './Table.scss';
 import { Link } from 'react-router-dom';
-import { useMyContextProvider } from '../../../../../../store';
-import APIs from '../../../../../../APIs/index';
-
+import APIs from '../../../../../../APIs';
 function DefaultColumnFilter({ column: { filterValue, preFilteredRows, setFilter } }) {
     const count = preFilteredRows.length;
 
@@ -19,71 +17,19 @@ function DefaultColumnFilter({ column: { filterValue, preFilteredRows, setFilter
         />
     );
 }
-function directToEdit(path, id) {
-    document.location.href = `/admin${path}/edit/${id}`;
 
-}
-
-function agreeMethod(id, state) {
-    APIs.agreePost({postsID:id, state: state}).then(data => {
-        document.location.reload();
-    })
-}
-
-function deleteMethod(id) {
-    alert('xóa')
-    APIs.deletePost(id).then(value => {
-        document.location.reload();
-    })
-}
-
-const CustomButton = ({path, id, state, text1, text2}) => {
+const CustomButton = ({userID}) => {
     return (
         <td style={{ display: 'flex', flexDirection:'column'}}>
-           <button style={{marginBottom:5}} onClick={() => directToEdit(path, id)}>{text1}</button>
-           {
-            text2 == 'Xóa'?
-            <button onClick={()=> deleteMethod(id)} > {'Xóa post'} </button>
-           
-            :<button onClick={()=>agreeMethod(id, state)}>{text2}</button>
-           }
+           <Link to={'/admin/users/edit/'+userID} >
+           <button style={{width:100, height: 30, marginBottom:5}} >Sửa</button>
+           </Link>
+           <button style={{width:100, height: 30}} onClick={()=> APIs.deleteUser(userID)}>Xóa</button>
         </td>
     );
 }
 
-function getBehaviors({ state, row, path, rawData, index, controller }) {
-    const role = localStorage.getItem('hiephoidoanhnghiep.role')
-    switch (state) {
-        case 'public':
-            switch (role) {
-                case 'admin_1':
-                   return (<CustomButton path={path} id={row.original._id} text1={'Chỉnh sửa'} text2={'Xóa'} />)
-                    break;
-            }
-            break;
-
-        case 'pending':
-            switch (role) {
-                case 'admin_2':
-                    return (<CustomButton path={path} id={`${rawData[index]._id}?state=pending`} state={state} text1={'Xem trước khi duyệt'} text2={'Duyệt bài'} />)
-                    break;
-            }
-            break;
-            
-        case 'accepting':
-            switch (role) {
-                case 'admin_3':
-                    return (<CustomButton path={path} id={`${rawData[index]._id}?state=accepting`} state={state} text1={'Xem trước khi đăng'} text2={'Đăng bài'} />)
-                    break;
-            }
-            break;
-    }
-
-}
-
-const Table = ({ columns, data, path, state, rawData }) => {
-    const [controller, dispatch] = useMyContextProvider();
-
+const Table = ({ columns, data, path }) => {
     const defaultColumn = React.useMemo(
         () => ({
             // Let's set up our default Filter UI
@@ -110,7 +56,7 @@ const Table = ({ columns, data, path, state, rawData }) => {
     } = useTable(
         {
             columns,
-            data: data,
+            data,
             defaultColumn,
             initialState: { pageIndex: 0 },
         },
@@ -123,17 +69,11 @@ const Table = ({ columns, data, path, state, rawData }) => {
         <>
             <div className="table__wrapper">
                 <table {...getTableProps()} className="table">
-                    <thead>
+                    <thead >
                         {headerGroups.map((headerGroup) => (
-                            <tr
-                                {...headerGroup.getHeaderGroupProps()}
-                                style={{ maxWidth: '100%', backgroundColor: '#adccde' }}
-                            >
+                            <tr {...headerGroup.getHeaderGroupProps()} style={{maxWidth:'100%', backgroundColor:'#adccde'}} >
                                 {headerGroup.headers.map((column) => (
-                                    <th
-                                        {...column.getHeaderProps(column.getSortByToggleProps())}
-                                        style={{ maxWidth: '100%', backgroundColor: '#adccde' }}
-                                    >
+                                    <th {...column.getHeaderProps(column.getSortByToggleProps())} style={{maxWidth:'100%', backgroundColor:'#adccde'}}>
                                         {column.render('Header')}
                                         <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
                                         <div>
@@ -184,7 +124,7 @@ const Table = ({ columns, data, path, state, rawData }) => {
                                             </td>
                                         );
                                     })}
-                                    {getBehaviors({ state, row, path, rawData: rawData, index: i, controller })}
+                                  <CustomButton userID={row.original._id} />
                                 </tr>
                             );
                         })}
@@ -235,7 +175,6 @@ const Table = ({ columns, data, path, state, rawData }) => {
                     ))}
                 </select>
             </div>
-
         </>
     );
 };

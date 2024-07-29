@@ -17,7 +17,10 @@ import Misson from '../Pages/Misson';
 import Search from '../Pages/Search';
 import Login from '../Components/FormLogin/index';
 
-import Partners from '../Pages/Admin/Pages/Partners/index';
+import Partners from '../Pages/Admin/Pages/Partners/Home/index';
+import EditPartner from '../Pages/Admin/Pages/Partners/EditPartner/EditPartner';
+import AddPartner from '../Pages/Admin/Pages/Partners/AddPartner/AddPartner';
+
 
 
 import LayoutAdmin from '../Pages/Admin/Layout';
@@ -29,7 +32,9 @@ import Authen from '../authen';
 
 import Users from '../Pages/Admin/Pages/Users/Home/index'
 import AddUser from '../Pages/Admin/Pages/Users/AddUser/index'
-
+import EditUser from '../Pages/Admin/Pages/Users/EditUser';
+import FormLogin from '../Components/FormLogin/index';
+import LayoutLogin from '../Components/FormLogin/LayoutLogin'
 
 // Public routes
 const publicRoutes = [
@@ -62,16 +67,24 @@ const publicRoutes = [
         path: '/admin',
         component: Authen,
         Children: [
-            { path: '/admin/partners', component: Partners, layout: LayoutAdmin },
+            // { path: '/admin/partners', component: Partners, layout: LayoutAdmin },
+
+            { path: '/admin/partners/edit/:id', component: EditPartner, layout: LayoutAction },
+            { path: '/admin/partners/add', component: AddPartner, layout: LayoutAction },
+            { path: '/admin/partners/pending', component: Partners, layout: LayoutAdmin },
+            { path: '/admin/partners/:type', component: Partners, layout: LayoutAdmin },
+            { path: '/admin/partners/', component: Partners, layout: LayoutAdmin },
             
             { path: '/admin/posts/edit/:id', component: EditPost, layout: LayoutAction },
             { path: '/admin/posts/add', component: AddPost, layout: LayoutAction },
             { path: '/admin/posts/pending', component: Posts, layout: LayoutAdmin },
             { path: '/admin/posts/:type', component: Posts, layout: LayoutAdmin },
             { path: '/admin/posts/', component: Posts, layout: LayoutAdmin },
+
             { path: '/admin/users/', component: Users , layout: LayoutAdmin},
-            { path: '/admin/users/edit/:id', component: AddUser, layout: LayoutAdmin}
-            
+            { path: '/admin/users/add', component: AddUser, layout: LayoutAdmin},
+            { path: '/admin/users/edit/:id', component: EditUser, layout: LayoutAdmin},
+            { path: '/admin/login', component: FormLogin, layout: LayoutLogin}
         ],
     },
 ];

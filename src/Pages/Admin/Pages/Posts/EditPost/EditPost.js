@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import CkEditorComponent from '../Components/CkEditor/CkEditor';
 import './EditPost.scss';
 import APIs from '../../../../../APIs';
-import { ref, getDownloadURL,  uploadBytes } from 'firebase/storage';
+import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
 import { storage } from '../../../../../firebaseConfig';
 
 const EditPost = () => {
@@ -10,11 +10,11 @@ const EditPost = () => {
     const [postTypes, setPostTypes] = useState([]);
     const [postData, setPostData] = useState({});
     const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('')
+    const [description, setDescription] = useState('');
     const [image, setImage] = useState('');
     const [isVisible, setIsVisible] = useState(false);
     const [file, setFile] = useState();
-   const [_id, set_Id] = useState();
+    const [_id, set_Id] = useState();
     useEffect(() => {
         APIs.getMenu()
             .then((menus) => (menus.length > 0 ? menus.filter((item) => item._id == '669c7da19e21ccf15d892a07') : []))
@@ -26,16 +26,16 @@ const EditPost = () => {
         const path = document.location.pathname.split('/');
 
         const state = document.location.search.substring(7);
-        if(state == 'pending' || state == 'accepting') setIsVisible(true)
+        if (state == 'pending' || state == 'accepting') setIsVisible(true);
         APIs.getPostByID(path[path.length - 1])
             .then((data) => {
                 if (!!data) {
-                    console.log(data)
+                    console.log(data);
                     setPostData(data);
                     setContent(data.content);
-                    setTitle(data.title)
-                    setDescription(data.description)
-                    setFile(data.attachments[0].image)
+                    setTitle(data.title);
+                    setDescription(data.description);
+                    setFile(data.attachments[0].image);
                     set_Id(data.postID);
                 }
             })
@@ -44,48 +44,75 @@ const EditPost = () => {
     }, []);
 
     const configButton = () => {
-       const state = document.location.search.substring(7);
-       switch (state) {
-           case 'pending':
-               return (
-                   <div className="btn_container">
-                       <div className="btn_item">
-                           <button className="btn_cancel" type='button' >Hủy</button>
-                       </div>
-                       <div className="btn_item">
-                           <button onClick={(e) => {e.preventDefault(); APIs.agreePost({postsID:postData._id, state: state})}} className="btn_submit" type='submit' >Duyệt bài viết</button>
-                       </div>
-                   </div>
-               );
-               break;
-           case 'accepting':
-               return (
-                   <div className="btn_container">
-                       <div className="btn_item">
-                           <button type='button' className="btn_cancel" >Hủy</button>
-                       </div>
-                       <div className="btn_item">
-                           <button type="submit" onClick={(e) => {e.preventDefault(); APIs.agreePost({postsID:postData._id, state: state})}}  className="btn_submit"  >Đăng bài viết</button>
-                       </div>
-                   </div>
-               );
-               break;
-           default:
-               return (
-                   <div className="btn_container">
-                       <div className="btn_item">
-                           <button type='button' className="btn_cancel"  >Hủy</button>
-                       </div>
-                       <div className="btn_item">
-                           <button type='submit'  className=" btn_submit" >Lưu bài viết</button>
-                       </div>
-                   </div>
-               );
-               break;
-       }
-    }
-
- 
+        const state = document.location.search.substring(7);
+        switch (state) {
+            case 'pending':
+                return (
+                    <div className="btn_container">
+                        <div className="btn_item">
+                            <button className="btn_cancel" type="button" onClick={() => window.history.back()}>
+                                Hủy
+                            </button>
+                        </div>
+                        <div className="btn_item">
+                            <button
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    APIs.agreePost({ postsID: postData._id, state: state }).then(
+                                        (value) =>
+                                            document.location.href = 'http://localhost:3000/admin/posts/accepting'
+                                    );
+                                }}
+                                className="btn_submit"
+                                type="submit"
+                            >
+                                Duyệt bài viết
+                            </button>
+                        </div>
+                    </div>
+                );
+                break;
+            case 'accepting':
+                return (
+                    <div className="btn_container">
+                        <div className="btn_item">
+                            <button type="button" className="btn_cancel" onClick={()=> window.history.back()}>
+                                Hủy
+                            </button>
+                        </div>
+                        <div className="btn_item">
+                            <button
+                                type="submit"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    APIs.agreePost({ postsID: postData._id, state: state }).then(data => document.location.href = 'http://localhost:3000/admin/posts');
+                                }}
+                                className="btn_submit"
+                            >
+                                Đăng bài viết
+                            </button>
+                        </div>
+                    </div>
+                );
+                break;
+            default:
+                return (
+                    <div className="btn_container">
+                        <div className="btn_item">
+                            <button type="button" className="btn_cancel" onClick={()=> window.history.back()}>
+                                Hủy
+                            </button>
+                        </div>
+                        <div className="btn_item">
+                            <button type="submit" className=" btn_submit">
+                                Lưu bài viết
+                            </button>
+                        </div>
+                    </div>
+                );
+                break;
+        }
+    };
 
     function handleChange(event) {
         const imgPath = event.target.files[0];
@@ -93,9 +120,9 @@ const EditPost = () => {
         setFile(URL.createObjectURL(imgPath));
         setImage(imgPath);
     }
-    
+
     const handleSubmit = async (e) => {
-        let pathImg = "";
+        let pathImg = '';
         // Create the file metadata
         /** @type {any} */
         const metadata = {
@@ -109,7 +136,7 @@ const EditPost = () => {
             .catch((err) => console.error(err));
 
         await getDownloadURL(storageRef)
-            .then( (imgPath) => {
+            .then((imgPath) => {
                 pathImg = imgPath;
             })
             .catch((error) => alert(error));
@@ -118,11 +145,12 @@ const EditPost = () => {
 
     return (
         <div className="edit_post">
-            <form id='form'
-             onSubmit={async function (e) {
+            <form
+                id="form"
+                onSubmit={async function (e) {
                     e.preventDefault();
                     // image = undefined || blob
-                    // file = "" ||  imagePath || urlPath 
+                    // file = "" ||  imagePath || urlPath
 
                     // und "" => false false => false => image ""
                     // un img => false true => false => img img
@@ -130,26 +158,28 @@ const EditPost = () => {
                     // bb img => true true => true  => both hand
                     // bb url => true true => true=> both hand
 
-                     if(!image)  {
+                    if (!image) {
                         document.getElementById('image').value = file;
                         document.getElementById('form').submit();
-                     } else {
+                    } else {
                         const url = await handleSubmit();
                         document.getElementById('image').value = url;
                         document.getElementById('form').submit();
-                     }
+                    }
                     // if(image) {
                     //     document.getElementById('form').submit();
                     //     return;
                     // }
                     // const url = (file || file == "") && !image ? file : await handleSubmit().then(data => data);
                     // alert('url: ', url)
-                   
                 }}
-             className="container" method='POST'   action={APIs.updatePost(postData)}>
+                className="container"
+                method="POST"
+                action={APIs.updatePost(postData)}
+            >
                 <div className="item_container">
                     <span className="item_title">Thể loại</span>
-                    <select disabled={isVisible} name='parentID' className="item_select">
+                    <select disabled={isVisible} name="parentID" className="item_select">
                         {postTypes.map((type) => (
                             <option
                                 value={type._id}
@@ -163,7 +193,8 @@ const EditPost = () => {
                 </div>
                 <div className="item_container">
                     <span className="item_title">Tiêu đề</span>
-                    <input disabled={isVisible}
+                    <input
+                        disabled={isVisible}
                         onInput={(event) => setTitle(event.value)}
                         className="item_input item_input__title"
                         type="text"
@@ -200,17 +231,17 @@ const EditPost = () => {
                 </div>
                 <div className="item_container">
                     <span className="item_title"></span>
-                    {file && <img src={  file} alt="uploaded file"  />}
+                    {file && <img src={file} alt="uploaded file" />}
                     <input id="image" name="image" hidden />
                     <input id="_id" name="_id" hidden value={_id} />
                 </div>
-               
+
                 <div className="item_container">
                     <span className="item_title">Nội dung</span>
                     <CkEditorComponent disabled={isVisible} data={content} onEvent={setContent} />
                 </div>
-                <input name='content' value={content} hidden />
-               {configButton()}
+                <input name="content" value={content} hidden />
+                {configButton()}
             </form>
         </div>
     );

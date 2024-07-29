@@ -100,7 +100,7 @@ function EventsDetail() {
                         <p>{headTitle[1]}</p>
                     </div>
                 </div>
-                <StarRating />
+                {postData._id && <StarRating eventId={postData._id} />}
                 <div id='item-i' className="eventDetail__title">
                 <div id='title-general'>
                 <h1>{postData.title}</h1>
