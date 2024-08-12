@@ -57,7 +57,7 @@ function Users() {
                     </div>
                 </div>
                 <div className="admin__header">
-                    <h1>Users</h1>
+                    <h1>Quản lý Users</h1>
                 </div>
                 <Link to="/admin/users/add" className="Admin__add_icon">
                     <h6>Thêm tài khoản</h6>

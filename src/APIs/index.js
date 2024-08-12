@@ -18,6 +18,7 @@ const getMenu = async () => {
     return parentData.length > 0 ? parentData : [];
 };
 
+
 const getMenuItem = async (path) => {
     const pathArr = path.split('/');
     const pathName = pathArr[pathArr.length - 1];

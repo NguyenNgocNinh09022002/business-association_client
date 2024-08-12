@@ -1,7 +1,7 @@
 
 const SideBar = () => {
     return (
-        <div style={{ width: 150 }}>
+        <div style={{ width: 180 }}>
             <p>
                 <a href="/admin/partners" style={{ marginLeft: 20, marginTop: 10, fontSize: 16 }}>
                     Thành viên 

@@ -40,6 +40,7 @@ import LayoutLogin from '../Components/FormLogin/LayoutLogin'
 const publicRoutes = [
     
 
+
     { path: '/', component: Home },
 
     { path: '/giới-thiệu/giới-thiệu-chung', component: Introduce },
@@ -84,7 +85,8 @@ const publicRoutes = [
             { path: '/admin/users/', component: Users , layout: LayoutAdmin},
             { path: '/admin/users/add', component: AddUser, layout: LayoutAdmin},
             { path: '/admin/users/edit/:id', component: EditUser, layout: LayoutAdmin},
-            { path: '/admin/login', component: FormLogin, layout: LayoutLogin}
+            { path: '/admin/login', component: FormLogin, layout: LayoutLogin},
+            { path: '/admin', component: Posts, layout: LayoutAdmin },
         ],
     },
 ];

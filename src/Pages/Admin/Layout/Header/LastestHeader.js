@@ -16,6 +16,7 @@ import { MdEmail } from 'react-icons/md';
 import img_logo from '../../../../asset/image/slider/Logobinhduong.png';
 import apis from '../../../../APIs';
 
+
 function Header() {
     const navMobileInputRef = useRef(null);
     const handleLinkClick = (menukey) => {
@@ -35,7 +36,8 @@ function Header() {
             navMobileInputRef.current.checked = false;
         }
     };
-    const [menus, setMenu] = useState([
+
+    const menu = [
         {
             name: 'Partners',
             slug: 'admin/partners',
@@ -44,14 +46,19 @@ function Header() {
         {
             name: 'Posts',
             slug: 'admin/posts',
-            childs: [
-                {
-                    name: 'Edit Post',
-                    slug: 'id',
-                },
-            ],
+            childs: []
         },
-    ]);
+    ]
+
+    const menuAdmin = [    
+        {
+            name: 'Users',
+            slug: 'admin/users',
+            childs: []
+        },
+    ]
+
+    const [menus, setMenu] = useState(localStorage.getItem('hiephoidoanhnghiep.role') == 'admin' ? menuAdmin : menu);
 
     return (
         <div className="header" style={{ display: 'block', position: 'unset' }}>

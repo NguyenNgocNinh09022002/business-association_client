@@ -59,7 +59,7 @@ const PostsContainer = ({ type }) => {
                     </div>
                 </div>
                 <div className="board__header">
-                    <h1>Ban Chấp hành Hiệp hội Nhiệm kỳ VII (2022-2027)</h1>
+                    <h1>Quản lý bài viết</h1>
                 </div>
             </div>
             <div className="board__table">

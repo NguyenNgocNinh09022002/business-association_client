@@ -140,7 +140,7 @@ function EventsDetail() {
                 </div>
                 <div className="eventDetail__content" style={{ fontSize: `${fontSize}px`, lineHeight }}>
                     <div className="eventDetail__content_header">{postData.description}</div>
-                    {/* <div className="eventDetail__content_text">{postData.content}</div> */}
+                    <img src={postData.attachments?.at(0)?.image} style={{marginTop:10, marginBottom:10}} />
                     <RenderStringToJSX string={postData.content} />
                 </div>
                 <div className="commentSection">

@@ -35,12 +35,16 @@ const PartnersContainer = ({ type }) => {
     useEffect(() => {
         APIs.getFullPartners(type).then((partnersData) => {
             if (partnersData.length > 0) {
-                
-                if(!partnersData[0].data) setData(partnersData);
-                else  {
-                    setData(partnersData.map(data => {return {...data.data, method: data.method, index: data.index}}))
-                    setRawData(partnersData)
-                }
+               if(!partnersData[0]?.data) {
+                let index = 0;
+                setData(partnersData.map(data => {return {...data, createdAt: (new Date(data.createdAt)).toLocaleDateString(), method: data.method, index: ++index}}))
+                setRawData(partnersData)
+               }
+               else {
+                let index = 0;
+                setData(partnersData.map(data => {return {...data.data, createdAt: (new Date(data.createdAt)).toLocaleDateString(), method: data.method, index: ++index}}))
+                setRawData(partnersData)
+               }
             }
         });
     }, []);

@@ -165,6 +165,7 @@ const EditPartner = () => {
                         const url = await handleSubmit();
                         document.getElementById('logo').value = url;
                         document.getElementById('form').submit();
+
                     }
                     // if(image) {
                     //     document.getElementById('form').submit();
